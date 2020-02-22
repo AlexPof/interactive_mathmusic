@@ -41,7 +41,7 @@
     </head>
     <body>
       <center>
-      <p style="font-size:20px;">Parsimonious graphs on triads for Douthett's P<sub>m,n</sub> relations</p><br><br>
+      <p style="font-size:20px;">Parsimonious graphs on triads for Douthett's and Steinbach's P<sub>m,n</sub> relations</p><br><br>
     </center>
       <div class="container-auto">
         <div class="row">
@@ -112,14 +112,28 @@
             <!-- DEFINING BUTTONS FOR PLAYING PROGRESSIONS -->
 
             <br><br>
+            <center>
               <button type="button" class="btn btn-secondary" onClick="playProgression();">Play</button>
               <button type="button" class="btn btn-secondary" onClick="eraseProgression();">Erase</button>
               <br>
               Add chords to the progression by shift-clicking on the nodes.
-
+            </center>
+              <br><br><br>
+              Two triads are said to be P<sub>m,n</sub>-related if <i>m</i> pitch classes move by a semitone,
+              while <i>n</i> pitch classes move by a whole tone, the rest of the pitch classes being identical.
+              <br><br>
+              Based on the original paper of Douthett and Steinbach :
+              <br>
+              Douthett, Jack, and Peter Steinbach. 1998. “Parsimonious Graphs: A Study in Parsimony, Contextual Transformations, and Modes of Limited Transposition.” Journal of Music Theory 42 (2): 241–263.
+              <br><br>
+              Visualization and code by Alexandre Popoff.
+              <br>
+              Best viewed with Chrome or Firefox. Compatibility with Internet Explorer and Microsoft Edge is not guaranteed.
         </div>
         <div class="col-sm">
+          <center>
           <svg id="MAINSVG"></svg>
+        </center>
         </div>
       </div>
     </div>
