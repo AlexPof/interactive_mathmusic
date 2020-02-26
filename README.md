@@ -21,3 +21,4 @@ For more information
   * The original paper : Douthett, Jack, and Peter Steinbach. 1998. “Parsimonious Graphs: A Study in Parsimony, Contextual Transformations, and Modes of Limited Transposition.” Journal of Music Theory 42 (2): 241–263.
 
   * See this [blog post](https://alpof.wordpress.com/2019/09/22/transformational-music-theory-16/).
+  
