@@ -218,7 +218,7 @@ of New Music, 49 (2), 2011, pp. 93-142.
         var player=new WebAudioFontPlayer();
 
         function startWaveTableNow(drum,pitch) {
-            player.queueWaveTable(audioContext, audioContext.destination, drum, audioContext.currentTime, pitch, 3.0,1.0);
+            player.queueWaveTable(audioContext, audioContext.destination, drum, audioContext.currentTime+0.02*Math.random(), pitch, 3.0,1.0);
         }
 
       function mod(n, m) {

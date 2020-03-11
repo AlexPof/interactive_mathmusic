@@ -1,0 +1,571 @@
+<html>
+    <head>
+		<script src="https://surikov.github.io/webaudiofont/npm/dist/WebAudioFontPlayer.js"></script>
+		<!--<script src="0000_SBLive_sf2.js"></script>-->
+        <script src="https://surikov.github.io/webaudiofontdata/sound/0000_SBLive_sf2.js"></script>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <style>
+            
+
+            body {
+              font-family: 'Oswald', sans-serif;
+              font-size:12px;
+            }
+			
+			.svgborder {
+				stroke-width:1;
+				fill:none;
+				stroke:lightgray;
+                opacity:1.0;
+			}
+
+            .chordNodeText {
+            font-family: 'Oswald', sans-serif;
+            font-size:20px;
+            fill:lightgray;
+            text-anchor:middle;
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+            }
+			
+			.chordNodeCircle {
+                stroke-width:2;
+            }
+
+            .selectorNodeText {
+            font-family: 'Oswald', sans-serif;
+            font-size:12px;
+            fill:lightgray;
+            text-anchor:middle;
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+            }
+			
+			.selectorNodeCircle {
+                stroke-width:1;
+				fill:white;
+				stroke:lightgray;
+                opacity:1.0;
+            }	
+			.selectorNodeCircle-selected {
+                stroke-width:1;
+				fill:lightcoral;
+				stroke:lightgray;
+                opacity:1.0;
+            }
+			.chordpolygonpath {
+                stroke-width:1;
+				fill:lightcoral;
+				stroke:lightgray;
+                opacity:0.4;
+            }
+			.chordpolygonpath2 {
+                stroke-width:1;
+				fill:gold;
+				stroke:lightgray;
+                opacity:0.4;
+            }				
+			
+            .button {
+                background-color: #e7e7e7; color: black; /* Green */
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+            }
+        </style>
+    </head>
+    <body>
+      <center>
+      <p style="font-size:20px;">Visualization of Douthett's and Steinbach's P<sub>m,n</sub> relations between chords</p>
+    </center>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-3">
+
+            <!-- DEFINING RADIO BUTTONS FOR SELECTING CHORDS -->
+			<center>
+            Click on the pitch-classes to define a chord<br><br>
+            <svg width="150" height="150">
+			<g transform="translate(75,75)" id="SELECTOR">
+			<circle cx="0" cy="0" r="63" style="fill:white;stroke:lightgray;stroke-width:1"></circle>
+			<g id="SELECTOR-displaychord"></g>
+			<g id="SELECTOR-chordpolygon"></g>
+			</g>
+			</svg>
+            <br><br>
+			  Define chord symbol and click "Add chord" to add it to the display
+			  <br>
+			  <p style="font-size:10px; display:inline">(if the chord is already present, it will not be added)</p>
+			  <br>
+			  Common symbols: &#x266F; &#x266D; M m + - ° &#x2205; &#x0394; &#x00B9; &#x00B3; &#x2075; &#x2077; &#x2079;<br>
+			  <input type="text" style="display:inline;" id="chordsymbol">
+              <button type="button" class="btn btn-secondary" onClick="addChordToDisplay();">Add chord</button>
+			  <br><br>
+			  CTRL+click on a chord in the display will remove it
+            </center>
+			<br>
+	
+            <!-- DEFINING CHECK BOXES FOR SELECTING P_mn relations -->
+            Select P<sub>m,n</sub> relations to display:<br>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="P10" onClick="create_edges();">
+              <label class="form-check-label" for="gridCheck">
+                <p style="display:inline; color:green;">P<sub>1,0</sub></p>
+              </label>
+              <br>
+            <input class="form-check-input" type="checkbox" id="P01" onClick="create_edges();">
+            <label class="form-check-label" for="gridCheck">
+              <p style="display:inline; color:red;">P<sub>0,1</sub></p>
+            </label>
+            <br>
+            <input class="form-check-input" type="checkbox" id="P11" onClick="create_edges();">
+            <label class="form-check-label" for="gridCheck">
+            <p style="display:inline; color:royalblue;">P<sub>1,1</sub></p>
+            </label>
+            <br>
+            <input class="form-check-input" type="checkbox" id="P20" onClick="create_edges();">
+            <label class="form-check-label" for="gridCheck">
+            <p style="display:inline; color:purple;">P<sub>2,0</sub></p>
+            </label>
+            <br>
+            <input class="form-check-input" type="checkbox" id="P02" onClick="create_edges();">
+            <label class="form-check-label" for="gridCheck">
+            <p style="display:inline; color:darkorange;">P<sub>0,2</sub></p>
+            </label>
+            <br>
+            <input class="form-check-input" type="checkbox" id="P21" onClick="create_edges();">
+            <label class="form-check-label" for="gridCheck">
+            <p style="display:inline; color:darkcyan;">P<sub>2,1</sub></p>
+            </label>
+            <br>
+            <input class="form-check-input" type="checkbox" id="P12" onClick="create_edges();">
+            <label class="form-check-label" for="gridCheck">
+            <p style="display:inline; color:gold;">P<sub>1,2</sub></p>
+            </label>
+            <br>
+          </div>
+
+            <!-- DEFINING BUTTONS FOR PLAYING PROGRESSIONS -->
+            <center>
+              <button type="button" class="btn btn-secondary" onClick="playProgression();">Play</button>
+              <button type="button" class="btn btn-secondary" onClick="eraseProgression();">Erase</button>
+              <br>
+              Add chords to the progression by shift-clicking on the nodes.
+            </center>
+              <br>
+              Two triads are said to be P<sub>m,n</sub>-related if <i>m</i> pitch classes move by a semitone,
+              while <i>n</i> pitch classes move by a whole tone, the rest of the pitch classes being identical.
+              <br><br>
+              Based on the original paper of Douthett and Steinbach :
+              <br>
+              Douthett, Jack, and Peter Steinbach. 1998. “Parsimonious Graphs: A Study in Parsimony, Contextual Transformations, and Modes of Limited Transposition.” Journal of Music Theory 42 (2): 241–263.
+              <br><br>
+              Visualization and code by Alexandre Popoff.
+              <br>
+              Best viewed with Chrome or Firefox. Compatibility with Internet Explorer and Microsoft Edge is not guaranteed.
+        </div>
+        <div class="col">
+          <center>
+          <svg id="MAINSVG">
+		  <rect id="MAINSVGBORDER"></rect>
+		  </svg>
+        </center>
+        </div>
+      </div>
+    </div>
+
+
+    </body>
+    		<script>
+
+			var selectedPreset=_tone_0000_SBLive_sf2;
+			var AudioContextFunc = window.AudioContext || window.webkitAudioContext;
+			var audioContext = new AudioContextFunc();
+			var player=new WebAudioFontPlayer();
+			player.adjustPreset(audioContext,selectedPreset);
+
+			function startWaveTableNow(pitch,time) {
+				var x = player.queueWaveTable(audioContext, audioContext.destination, selectedPreset, audioContext.currentTime + time, pitch, 3.0);
+                return x;
+			}
+
+			function playPCs(pc,time,arpeging) {
+				c=time;
+				for (var i=0;i<pc.length;i++) {
+					var x = startWaveTableNow(12*4+pc[i],c);
+					c+=arpeging;
+				}
+                return x;
+			}
+
+      function mod(n, m) {
+          return ((n % m) + m) % m;
+      }
+
+      function permute(xs) {
+        let ret = [];
+
+        for (let i = 0; i < xs.length; i = i + 1) {
+          let rest = permute(xs.slice(0, i).concat(xs.slice(i + 1)));
+
+          if(!rest.length) {
+            ret.push([xs[i]])
+          } else {
+            for(let j = 0; j < rest.length; j = j + 1) {
+              ret.push([xs[i]].concat(rest[j]))
+            }
+          }
+        }
+        return ret;
+      }
+
+    function is_pmn_related(pc1,pc2,m,n) {
+		if (pc1.length != pc2.length)
+			return false;
+		
+        var permutations=permute(pc2);
+        var N=pc1.length;
+        for (var i=0;i<permutations.length;i++) {
+			  var h=[];
+			  for (var j=0;j<N;j++) {
+				diff1 = mod(pc1[j]-permutations[i][j],12);
+				diff2 = mod(permutations[i][j]-pc1[j],12);
+				h.push(Math.min(diff1,diff2));
+			}
+			unchanged = (h.filter(x=>x==0)).length;
+			semitones = (h.filter(x=>x==1)).length;
+			tones = (h.filter(x=>x==2)).length;
+			if ((semitones==m) && (tones==n) && (N-m-n)==unchanged) {
+			  return true;
+			}
+		}
+		return false;
+	}
+
+    function create_edges() {
+      CURR_EDGE_DATA=[];
+      for (var i=0;i<CURR_CHORD_DATA.length;i++) {
+        for (var j=i+1;j<CURR_CHORD_DATA.length;j++) {
+          var pc1 = CURR_CHORD_DATA[i].pcs;
+          var pc2 = CURR_CHORD_DATA[j].pcs;
+
+          if (d3.select("#P10").property("checked") && is_pmn_related(pc1,pc2,1,0)){
+            CURR_EDGE_DATA.push({"pair":[CURR_CHORD_DATA[i].label,CURR_CHORD_DATA[j].label],
+                                 "label":"P10"
+                                });
+          }
+          if (d3.select("#P01").property("checked") && is_pmn_related(pc1,pc2,0,1)){
+            CURR_EDGE_DATA.push({"pair":[CURR_CHORD_DATA[i].label,CURR_CHORD_DATA[j].label],
+                                 "label":"P01"
+                                });
+          }
+          if (d3.select("#P11").property("checked") && is_pmn_related(pc1,pc2,1,1)){
+            CURR_EDGE_DATA.push({"pair":[CURR_CHORD_DATA[i].label,CURR_CHORD_DATA[j].label],
+                                 "label":"P11"
+                                });
+          }
+          if (d3.select("#P20").property("checked") && is_pmn_related(pc1,pc2,2,0)){
+            CURR_EDGE_DATA.push({"pair":[CURR_CHORD_DATA[i].label,CURR_CHORD_DATA[j].label],
+                                 "label":"P20"
+                                });
+          }
+          if (d3.select("#P02").property("checked") && is_pmn_related(pc1,pc2,0,2)){
+            CURR_EDGE_DATA.push({"pair":[CURR_CHORD_DATA[i].label,CURR_CHORD_DATA[j].label],
+                                 "label":"P02"
+                                });
+          }
+          if (d3.select("#P21").property("checked") && is_pmn_related(pc1,pc2,2,1)){
+            CURR_EDGE_DATA.push({"pair":[CURR_CHORD_DATA[i].label,CURR_CHORD_DATA[j].label],
+                                 "label":"P21"
+                                });
+          }
+          if (d3.select("#P12").property("checked") && is_pmn_related(pc1,pc2,1,2)){
+            CURR_EDGE_DATA.push({"pair":[CURR_CHORD_DATA[i].label,CURR_CHORD_DATA[j].label],
+                                 "label":"P12"
+                                });
+          }
+
+        }
+      }
+      create_graph(CURR_CHORD_DATA,CURR_EDGE_DATA);
+    }
+
+	function arrayEquals(array1,array2) {
+		return array1.length === array2.length && array1.sort().every(function(value, index) { return value === array2.sort()[index]});
+	}
+
+    function addChordToDisplay() {
+		var chordsymbol=d3.select("#chordsymbol").property("value");
+		if (chordsymbol.length==0)
+			return;
+		
+		var newchordata={"label":chordsymbol,"pcs":[],"x":0.0,"y":0.0};
+		for(var i=0;i<pitch_classes.length;i++) {
+			if (pitch_classes[i].select==1)
+				newchordata.pcs.push(i);
+		}
+		
+		for (var i=0;i<CURR_CHORD_DATA.length;i++) {
+			if (chordsymbol==CURR_CHORD_DATA[i].label)
+				return;
+			if (arrayEquals(CURR_CHORD_DATA[i].pcs,newchordata.pcs))
+				return;
+		}
+		
+		CURR_CHORD_DATA.push(newchordata);
+		create_edges();
+    }
+	
+	<!-- ########################################## -->
+	
+			SVG_CHORDCREATOR = d3.select("#SELECTOR");
+			var rpcs=63;
+			var pitch_classes = [{"label":"C","select":0,"x":rpcs*Math.cos(Math.PI/2-0.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-0.0*2*Math.PI/12.0)},
+								 {"label":"C#","select":0,"x":rpcs*Math.cos(Math.PI/2-1.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-1.0*2*Math.PI/12.0)},
+								 {"label":"D","select":0,"x":rpcs*Math.cos(Math.PI/2-2.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-2.0*2*Math.PI/12.0)},
+								 {"label":"Eb","select":0,"x":rpcs*Math.cos(Math.PI/2-3.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-3.0*2*Math.PI/12.0)},
+								 {"label":"E","select":0,"x":rpcs*Math.cos(Math.PI/2-4.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-4.0*2*Math.PI/12.0)},
+								 {"label":"F","select":0,"x":rpcs*Math.cos(Math.PI/2-5.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-5.0*2*Math.PI/12.0)},
+								 {"label":"F#","select":0,"x":rpcs*Math.cos(Math.PI/2-6.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-6.0*2*Math.PI/12.0)},
+								 {"label":"G","select":0,"x":rpcs*Math.cos(Math.PI/2-7.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-7.0*2*Math.PI/12.0)},
+								 {"label":"G#","select":0,"x":rpcs*Math.cos(Math.PI/2-8.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-8.0*2*Math.PI/12.0)},
+								 {"label":"A","select":0,"x":rpcs*Math.cos(Math.PI/2-9.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-9.0*2*Math.PI/12.0)},
+								 {"label":"Bb","select":0,"x":rpcs*Math.cos(Math.PI/2-10.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-10.0*2*Math.PI/12.0)},
+								 {"label":"B","select":0,"x":rpcs*Math.cos(Math.PI/2-11.0*2*Math.PI/12.0),"y":-rpcs*Math.sin(Math.PI/2-11.0*2*Math.PI/12.0)}
+								];
+			
+			gElems = SVG_CHORDCREATOR.selectAll(".selectorNode").data(pitch_classes).enter()
+                   .append("g")
+                   .attr("class","selectorNode")
+                   .on("click", function(d,i){
+						d.select=1-d.select;
+						if (d.select==1)
+							d3.select(this).selectAll("circle").attr("class","selectorNodeCircle-selected");
+						else
+							d3.select(this).selectAll("circle").attr("class","selectorNodeCircle");
+							
+						d3.select("#SELECTOR-chordpolygon").selectAll("path").remove();
+						d3.select("#SELECTOR-chordpolygon")
+						  .append("path")
+						  .attr("class","chordpolygonpath")
+						  .attr("d",function() {
+										var pathdata="M";
+										for(var i=0;i<pitch_classes.length;i++) {
+											if (pitch_classes[i].select==1) {
+												pathdata=pathdata+" "+(pitch_classes[i].x).toString()+" "+(pitch_classes[i].y).toString()+" L";
+											}
+										}
+										if (pathdata.length>1)
+											pathdata = (pathdata.slice(0,pathdata.length-1))+"Z";
+										else
+											pathdata="";
+										return pathdata
+									});
+						 
+				   })
+                   .attr("transform",function(d){
+                          var pos_x = d.x;
+                          var pos_y = d.y;
+                          return "translate("+pos_x.toString()+" "+pos_y.toString()+")"});
+						  
+			gElems.append("circle")
+                .attr("class","selectorNodeCircle")
+                .attr("r",10);
+
+			gElems.append("text")
+			 .attr("class","selectorNodeText")
+			 .attr("x",0.0)
+			 .attr("y",5)
+			 .html(function (d) {return d.label});
+				 
+	<!-- ########################################## -->					  
+
+            var SHIFT_KEY = 0;
+			var CTRL_KEY = 0;
+            var PROGRESSION=[];
+
+            var EDGE_COLORS = {"P10":"green",
+                               "P01":"red",
+                               "P11":"royalblue",
+                               "P20":"purple",
+                               "P02":"darkorange",
+                               "P21":"darkcyan",
+                               "P12":"gold"
+                             };
+
+            SVG_WIDTH=1000;
+            SVG_HEIGHT=800;
+
+            d3.select("body")
+            .on("keydown", function() {
+                            if (d3.event.keyCode==16)
+                                SHIFT_KEY = 1;
+							if (d3.event.keyCode==17)
+                                CTRL_KEY = 1;	
+                            })
+            .on("keyup",function() {SHIFT_KEY=0;CTRL_KEY = 0;})
+
+            SVG = d3.select("#MAINSVG")
+                    .attr("width", SVG_WIDTH)
+                    .attr("height", SVG_HEIGHT)
+			d3.select("#MAINSVGBORDER")
+					.attr("class","svgborder")
+					.attr("x",0)
+					.attr("y",0)
+					.attr("width",SVG_WIDTH)
+					.attr("height",SVG_HEIGHT);
+
+            SVG_lines = SVG.append("g").attr("transform","translate("+(SVG_WIDTH/2.0)+" "+(SVG_HEIGHT/2.0)+") scale(0.8)");
+            SVG_nodes = SVG.append("g").attr("transform","translate("+(SVG_WIDTH/2.0)+" "+(SVG_HEIGHT/2.0)+") scale(0.8)");
+
+            var CURR_CHORD_DATA = [];
+            var CURR_EDGE_DATA = [];
+            create_edges();
+
+            function create_graph(nodes,edges) {
+                SVG_lines.selectAll("line").remove();
+
+                SVG_lines.selectAll("line").data(edges).enter()
+                   .append("line")
+                   .attr("opacity",0.0)
+                   .attr("x1",function (d) {
+                                data = find_chord_data(d.pair[0]);
+                                return data.x;
+                              })
+                   .attr("y1",function (d) {
+                                data = find_chord_data(d.pair[0]);
+                                return data.y;
+                              })
+                   .attr("x2",function (d) {
+                                data = find_chord_data(d.pair[1]);
+                                return data.x;
+                              })
+                   .attr("y2",function (d) {
+                                data = find_chord_data(d.pair[1]);
+                                return data.y;
+                              })
+                   .attr("stroke",function(d) {return EDGE_COLORS[d.label];})
+                   .attr("stroke-width",2)
+                   .attr("opacity",0.5);
+
+
+                data_selection = SVG_nodes.selectAll(".chordNode").data(nodes, function(d) {return d.label;});
+
+                data_selection.exit().remove();
+
+                gElems = data_selection.enter()
+                   .append("g")
+                   .attr("class","chordNode")
+                   .on("click", function(d,i){
+									if (CTRL_KEY==1) {
+										for(var j=0;j<CURR_CHORD_DATA.length;j++) {
+											if (CURR_CHORD_DATA[j].label==d.label)
+												break;
+										}
+										d3.select("#SELECTOR-displaychord").selectAll("path").remove();
+										CURR_CHORD_DATA.splice(j,1);
+										create_edges();
+										return;
+									}
+                                    if (SHIFT_KEY==1) {
+                                        PROGRESSION.push(d.label);
+                                        highlightProgression(PROGRESSION,"lightcoral");
+                                    }
+                                    playPCs(d.pcs,0,0);
+                                })
+                    .attr("transform",function(d){
+                          var pos_x = d.x;
+                          var pos_y = d.y;
+                          return "translate("+pos_x.toString()+" "+pos_y.toString()+")"})
+					.on("mouseenter",function(d,i) {
+										var chord_pcs = d.pcs.sort((a, b) => a - b);
+										 d3.select("#SELECTOR-displaychord")
+										   .append("path")
+										   .attr("class","chordpolygonpath2")
+										   .attr("d",function() {
+                                                        console.log(chord_pcs);
+														var pathdata="M";
+														for(var i=0;i<chord_pcs.length;i++) {
+															pc = chord_pcs[i];
+															pathdata=pathdata+" "+(pitch_classes[pc].x).toString()+" "+(pitch_classes[pc].y).toString()+" L";
+														}
+														pathdata = (pathdata.slice(0,pathdata.length-1))+"Z";
+														return pathdata
+													});
+									 })
+					.on("mouseleave",function(d,i) {
+										d3.select("#SELECTOR-displaychord").selectAll("path").remove();
+									})			
+					.call(d3.drag().on("drag",
+							function dragged(d) {
+								d.x += d3.event.dx;
+								d.y += d3.event.dy;
+								d3.select(this).attr("transform","translate("+(d.x).toString()+" "+(d.y).toString()+")");
+								create_graph(CURR_CHORD_DATA,CURR_EDGE_DATA);
+							}));
+
+                gElems.append("circle")
+                .attr("class","chordNodeCircle")
+                   .attr("r",18)
+                   .attr("stroke","lightgray")
+                   .attr("fill","white")
+                   .attr("opacity",1.0);
+
+                gElems.append("text")
+                 .attr("class","chordNodeText")
+                 .attr("x",0.0)
+                 .attr("y",7)
+                 .html(function (d) {return d.label});
+            }
+
+
+
+            highlightProgression(PROGRESSION,"white");
+
+             function playProgression() {
+                var c=0;
+                for (var i=0;i<PROGRESSION.length;i++) {
+                    var lbl = PROGRESSION[i];
+                    var x = playPCs(find_chord_data(lbl).pcs,c,0);
+                    c+=1.0;
+                }
+             }
+
+             function eraseProgression() {
+                PROGRESSION=[];
+                highlightProgression(PROGRESSION,"white");
+             }
+
+             function highlightProgression(x,the_color) {
+                SVG.selectAll(".chordNode")
+                   .selectAll("circle")
+                   .attr("stroke","lightgray")
+                   .attr("fill","white")
+                   .attr("opacity",1.0);
+                SVG.selectAll(".chordNode").data(CURR_CHORD_DATA)
+                   .filter(function(d,i) { return x.includes(d.label); })
+                   .select("circle")
+                   .attr("fill",the_color)
+                   .attr("opacity",1.0);
+             }
+
+             function find_chord_data(lbl) {
+                for (var i=0;i<CURR_CHORD_DATA.length;i++) {
+                    if (CURR_CHORD_DATA[i].label==lbl)
+                        return CURR_CHORD_DATA[i];
+                }
+             }
+
+		</script>
+
+</html>

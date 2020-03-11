@@ -22,6 +22,12 @@ For more information :
 
   * See this [blog post](https://alpof.wordpress.com/2019/09/22/transformational-music-theory-16/).
 
+## Chord creator with Douthett's and Steinbach's P<sub>m,n</sub> relations
+
+Access to the interactive page is [available here](https://alexpof.github.io/interactive_mathmusic/Pmn_chordcreator/pmn_chordcreator.html)
+
+A variant of the above interactive page, which allows the user to create the chords of his choice and to visualize Douthett's and Steinbach's P<sub>m,n</sub> relations between them.
+
 ## Rhythmic canons mod 2
 
 Access to the interactive page is [available here](https://alexpof.github.io/interactive_mathmusic/rhythm_canon_mod2/rhythm_canon_mod2.html)
@@ -35,6 +41,6 @@ The motive and the entries can be swapped, creating a new rhythmic canon mod *p*
 
 For more information :
 
-    * Amiot, E.; 'Structures, Algorithms and algebraic tools for rythmic canons', Perspectives of New Music, 49 (2), 2011, pp. 93-142.
+  * Amiot, E.; 'Structures, Algorithms and algebraic tools for rythmic canons', Perspectives of New Music, 49 (2), 2011, pp. 93-142.
 
-    * Caure, H.; 'Modulus p Vuza canons: generalities and resolution of the case {0,1,2k} with p=2', arXiv:1505.06930.
+  * Caure, H.; 'Modulus p Vuza canons: generalities and resolution of the case {0,1,2k} with p=2', arXiv:1505.06930.
