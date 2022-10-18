@@ -2,24 +2,33 @@
     <head>
 		<script src="https://surikov.github.io/webaudiofont/npm/dist/WebAudioFontPlayer.js"></script>
 		<!--<script src="0000_SBLive_sf2.js"></script>-->
-        <script src="https://surikov.github.io/webaudiofontdata/sound/0000_SBLive_sf2.js"></script>
+        <script src="https://surikov.github.io/webaudiofontdata/sound/0001_GeneralUserGS_sf2_file.js"></script>
+        <script src="https://surikov.github.io/webaudiofontdata/sound/0190_GeneralUserGS_sf2_file.js"></script> <!-- _tone_0190_GeneralUserGS_sf2_file -->
+        <script src="https://surikov.github.io/webaudiofontdata/sound/0190_JCLive_sf2_file.js"></script><!-- _tone_0190_JCLive_sf2_file -->
+        <script src="https://surikov.github.io/webaudiofontdata/sound/0242_JCLive_sf2_file.js"></script>
         <script src="https://d3js.org/d3.v5.min.js"></script>
-        <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <style>
+            
+            html {
+            font-size: 16px;
+            line-height: 1.6em;
+            font-family: "Segoe UI", sans-serif;
+            text-align: justify;
+            }
+            h1 {
+                font-size: 20px;
+                font-weight: bold;
+            }
+            .footnotes {
+                font-size: 13px;
+            }
+            
             .chordNodeCircle {
-                stroke-width:2;
+                stroke-width:1.5;
             }
-
-            body {
-              font-family: 'Oswald', sans-serif;
-              font-size:12px;
-            }
-
             .chordNodeText {
-            font-family: 'Oswald', sans-serif;
-            font-size:20px;
-            fill:lightgray;
+            font-size:14px;
+            fill:darkgray;
             text-anchor:middle;
             -webkit-user-select: none; /* Safari */
             -moz-user-select: none; /* Firefox */
@@ -37,126 +46,182 @@
                 display: inline-block;
                 font-size: 16px;
             }
+            
+            .divseparator {
+                background-color: rgb(0,0,0,0.3);
+                height:2px;
+            }
+            
+            .mybutton {
+              background-color: rgb(100,100,100,1);
+              border: none;
+              border-radius:6px;
+              color: white;
+              padding: 12px 20px;
+              text-align: center;
+              text-decoration: none;
+              display: inline-block;
+              font-size: 12px;
+              margin: 4px 2px;
+              cursor: pointer;
+            }
+            .mybutton:active {
+                background-color: rgb(3,3,56,1);
+            }
         </style>
     </head>
     <body>
+    <div style="float:left; width: 10%; background-color:#FFFFFF;">
+		&nbsp;
+	</div>
+	<div style="float:left; width: 80%; background-color:#FFFFFF;">
       <center>
-      <p style="font-size:20px;">Parsimonious graphs on triads for Douthett's and Steinbach's P<sub>m,n</sub> relations</p><br><br>
-    </center>
-      <div class="container-auto">
-        <div class="row">
-          <div class="col-sm-2">
-
-            <!-- DEFINING RADIO BUTTONS FOR SELECTING CHORDS -->
-            Select chords to display:<br><br>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="Mm_chords" value="Mm" onClick="switchGraph(0);" checked>
-              <label class="form-check-label" for="exampleRadios1">
-                Major / Minor chords
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="MmAug_chords" value="MmAug" onClick="switchGraph(1);">
-              <label class="form-check-label" for="exampleRadios2">
-                Major / Minor / Augmented chords
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="exampleRadios" id="MmAugSus_chords" value="MmAugSus" onClick="switchGraph(2);">
-              <label class="form-check-label" for="exampleRadios2">
-                Major / Minor / Augmented / Sus4 chords
-              </label>
-            </div>
-            <br><br>
-
-            <!-- DEFINING CHECK BOXES FOR SELECTING P_mn relations -->
-            Select P<sub>m,n</sub> relations to display:<br>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="P10" onClick="create_edges();">
-              <label class="form-check-label" for="gridCheck">
-                P<sub>1,0</sub>
-              </label>
-              <br>
-            <input class="form-check-input" type="checkbox" id="P01" onClick="create_edges();">
-            <label class="form-check-label" for="gridCheck">
-              P<sub>0,1</sub>
-            </label>
-            <br>
-            <input class="form-check-input" type="checkbox" id="P11" onClick="create_edges();">
-            <label class="form-check-label" for="gridCheck">
-            P<sub>1,1</sub>
-            </label>
-            <br>
-            <input class="form-check-input" type="checkbox" id="P20" onClick="create_edges();">
-            <label class="form-check-label" for="gridCheck">
-            P<sub>2,0</sub>
-            </label>
-            <br>
-            <input class="form-check-input" type="checkbox" id="P02" onClick="create_edges();">
-            <label class="form-check-label" for="gridCheck">
-            P<sub>0,2</sub>
-            </label>
-            <br>
-            <input class="form-check-input" type="checkbox" id="P21" onClick="create_edges();">
-            <label class="form-check-label" for="gridCheck">
-            P<sub>2,1</sub>
-            </label>
-            <br>
-            <input class="form-check-input" type="checkbox" id="P12" onClick="create_edges();">
-            <label class="form-check-label" for="gridCheck">
-            P<sub>1,2</sub>
-            </label>
-            <br>
-          </div>
-
-            <!-- DEFINING BUTTONS FOR PLAYING PROGRESSIONS -->
-
-            <br><br>
-            <center>
-              <button type="button" class="btn btn-secondary" onClick="playProgression();">Play</button>
-              <button type="button" class="btn btn-secondary" onClick="eraseProgression();">Erase</button>
-              <br>
-              Add chords to the progression by shift-clicking on the nodes.
-            </center>
-              <br><br><br>
-              Two triads are said to be P<sub>m,n</sub>-related if <i>m</i> pitch classes move by a semitone,
-              while <i>n</i> pitch classes move by a whole tone, the rest of the pitch classes being identical.
-              <br><br>
-              Based on the original paper of Douthett and Steinbach :
-              <br>
-              Douthett, Jack, and Peter Steinbach. 1998. “Parsimonious Graphs: A Study in Parsimony, Contextual Transformations, and Modes of Limited Transposition.” Journal of Music Theory 42 (2): 241–263.
-              <br><br>
-              Visualization and code by Alexandre Popoff.
-              <br>
-              Best viewed with Chrome or Firefox. Compatibility with Internet Explorer and Microsoft Edge is not guaranteed.
-        </div>
-        <div class="col-sm">
-          <center>
-          <svg id="MAINSVG"></svg>
-        </center>
-        </div>
+        <h1>Parsimonious graphs on triads for Douthett's and Steinbach's P<sub>m,n</sub> relations</h1>
+      </center>
+      
+      <div class="divseparator">
       </div>
+      <p>
+      <div style="width:100%; overflow: hidden;">
+          <div style="float:left; width: 30%; background-color:#FFFFFF; font-size:14px;">
+                &#8226; &#119070; Select triads to display:<br>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="Mm_chords" value="Mm" onClick="switchGraph(0);" checked>
+                  <label class="form-check-label" for="exampleRadios1">Major/Minor triads</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="MmAug_chords" value="MmAug" onClick="switchGraph(1);">
+                  <label class="form-check-label" for="exampleRadios2">Major/Minor/Augmented triads</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="exampleRadios" id="MmAugSus_chords" value="MmAugSus" onClick="switchGraph(2);">
+                  <label class="form-check-label" for="exampleRadios3">Major/Minor/Augmented/Sus4 triads</label>
+                </div>
+                <br>
+                &#8226; Select P<sub>m,n</sub> relations to display:<br>
+                <div class="form-check">
+                <table style="width: 100%;">
+                <tr>
+                <td>
+                  <input class="form-check-input" type="checkbox" id="P10" onClick="create_edges();">
+                  <label class="form-check-label" for="gridCheck" style="color:green;">
+                    P<sub>1,0</sub>
+                  </label>
+                </td>
+                <td>
+                <input class="form-check-input" type="checkbox" id="P01" onClick="create_edges();">
+                <label class="form-check-label" for="gridCheck" style="color:red;">
+                  P<sub>0,1</sub>
+                </label>
+                </td></tr>
+                <tr>
+                <td>
+                <input class="form-check-input" type="checkbox" id="P11" onClick="create_edges();">
+                <label class="form-check-label" for="gridCheck" style="color:royalblue;">
+                P<sub>1,1</sub>
+                </label>
+                </td>
+                <td>
+                <input class="form-check-input" type="checkbox" id="P20" onClick="create_edges();">
+                <label class="form-check-label" for="gridCheck" style="color:purple;">
+                P<sub>2,0</sub>
+                </label>
+                </td></tr>
+                <tr>
+                <td>
+                <input class="form-check-input" type="checkbox" id="P02" onClick="create_edges();">
+                <label class="form-check-label" for="gridCheck" style="color:darkorange;">
+                P<sub>0,2</sub>
+                </label>
+                </td>
+                <td>
+                <input class="form-check-input" type="checkbox" id="P21" onClick="create_edges();">
+                <label class="form-check-label" for="gridCheck" style="color:darkcyan;">
+                P<sub>2,1</sub>
+                </label>
+                </td></tr>
+                <tr>
+                <td>
+                <input class="form-check-input" type="checkbox" id="P12" onClick="create_edges();">
+                <label class="form-check-label" for="gridCheck" style="color:gold;">
+                P<sub>1,2</sub>
+                </td>
+                </tr>
+                </table>
+                <br>
+              </div>
+              
+              <center>
+                <button type="button" class="mybutton" onClick="playProgression();">Play</button>
+                <button type="button" class="mybutton" onClick="eraseProgression();">Erase</button>
+                <br>
+                Add chords to the progression by shift-clicking on the nodes.
+            </center>
+            
+            &#8226; &#127926; Select instrument:<br>
+                <form>
+                  <input type="radio" name="instrumentRadios" value="piano" checked>
+                  <label for="instrumentRadios">Piano</label>
+                  <br>
+                  <input type="radio" name="instrumentRadios" value="organ">
+                  <label for="instrumentRadios">Organ</label>
+                  <br>
+                  <input type="radio" name="instrumentRadios" value="guitar">
+                  <label for="instrumentRadios">Guitar</label>
+                </form>
+          </div>
+          <div style="float:left; width: 70%; background-color:#FFFFFF;">
+                <svg width="100%" viewBox="0 0 750 550" preserveAspectRatio="xMinYMin meet" id="MAINSVG"></svg>
+          </div>
+      </div>
+    </p>
+    <h1>
+      The P<sub>m,n</sub> relations for chords
+    </h1>
+        <div class="divseparator"></div>
+        <p>
+          Two triads are said to be P<sub>m,n</sub>-related if <i>m</i> pitch classes move by a semitone, while <i>n</i> pitch classes move by a whole tone, the rest of the pitch classes being identical.
+        </p>
+        <p>
+          Based on the original paper of Douthett and Steinbach :
+        </p>
+        <p class="footnotes" id="footnotes">
+		1. Douthett, Jack, and Peter Steinbach. 1998. “Parsimonious Graphs: A Study in Parsimony, Contextual Transformations, and Modes of Limited Transposition.” Journal of Music Theory 42 (2): 241–263.
+		</p>
+        <p>
+            Visualization and code by Alexandre Popoff.
+          <br>
+          Best viewed with Chrome or Firefox. Compatibility with Internet Explorer and Microsoft Edge is not guaranteed.
+        </p>
     </div>
-
-
+    <div style="float:left; width: 10%; background-color:#FFFFFF;">
+		&nbsp;
+	</div>
     </body>
     		<script>
+            var INSTRUMENTS = {"piano":_tone_0001_GeneralUserGS_sf2_file,
+                               "organ":_tone_0190_GeneralUserGS_sf2_file,
+                               "guitar":_tone_0242_JCLive_sf2_file
+                               }
 
-			var selectedPreset=_tone_0000_SBLive_sf2;
 			var AudioContextFunc = window.AudioContext || window.webkitAudioContext;
 			var audioContext = new AudioContextFunc();
 			var player=new WebAudioFontPlayer();
-			player.adjustPreset(audioContext,selectedPreset);
+			player.adjustPreset(audioContext,INSTRUMENTS["organ"]);
 
-			function startWaveTableNow(pitch,time) {
-				var x = player.queueWaveTable(audioContext, audioContext.destination, selectedPreset, audioContext.currentTime + time, pitch, 3.0);
+			function startWaveTableNow(pitch,time,instrument) {
+				var x = player.queueWaveTable(audioContext, audioContext.destination, INSTRUMENTS[instrument], audioContext.currentTime + time, pitch, 2.0);
                 return x;
 			}
 
 			function playPCs(pc,time,arpeging) {
 				c=time;
 				for (var i=0;i<pc.length;i++) {
-					var x = startWaveTableNow(12*4+pc[i],c);
+                    var selected_instrument = d3.select('input[name="instrumentRadios"]:checked').property("value");
+					if (selected_instrument=="guitar")
+                        var x = startWaveTableNow(12*5+pc[i],c,selected_instrument);
+                    else
+                        var x = startWaveTableNow(12*4+pc[i],c,selected_instrument);
 					c+=arpeging;
 				}
                 return x;
@@ -277,63 +342,63 @@
                                "P12":"gold"
                              };
 
-            CHORD_DATA_Mm = [{"label":"C","pcs":[0,4,7],"x":7*Math.cos(2*Math.PI*(45+22.5)/360),"y":7*Math.sin(2*Math.PI*(45+22.5)/360)},
-                          {"label":"c","pcs":[0,3,7],"x":7*Math.cos(2*Math.PI*(45-22.5)/360),"y":7*Math.sin(2*Math.PI*(45-22.5)/360)},
-                          {"label":"E","pcs":[4,8,11],"x":3*Math.cos(2*Math.PI*(45+22.5)/360),"y":3*Math.sin(2*Math.PI*(45+22.5)/360)},
-                          {"label":"e","pcs":[4,7,11],"x":5*Math.cos(2*Math.PI*(45-22.5)/360),"y":5*Math.sin(2*Math.PI*(45-22.5)/360)},
-                          {"label":"g#","pcs":[8,11,3],"x":3*Math.cos(2*Math.PI*(45-22.5)/360),"y":3*Math.sin(2*Math.PI*(45-22.5)/360)},
-                          {"label":"G#","pcs":[8,0,3],"x":5*Math.cos(2*Math.PI*(45+22.5)/360),"y":5*Math.sin(2*Math.PI*(45+22.5)/360)},
+            CHORD_DATA_Mm = [{"label":"C<sub>M</sub>","pcs":[0,4,7],"x":7*Math.cos(2*Math.PI*(45+22.5)/360),"y":7*Math.sin(2*Math.PI*(45+22.5)/360)},
+                          {"label":"C<sub>m</sub>","pcs":[0,3,7],"x":7*Math.cos(2*Math.PI*(45-22.5)/360),"y":7*Math.sin(2*Math.PI*(45-22.5)/360)},
+                          {"label":"E<sub>M</sub>","pcs":[4,8,11],"x":3*Math.cos(2*Math.PI*(45+22.5)/360),"y":3*Math.sin(2*Math.PI*(45+22.5)/360)},
+                          {"label":"E<sub>m</sub>","pcs":[4,7,11],"x":5*Math.cos(2*Math.PI*(45-22.5)/360),"y":5*Math.sin(2*Math.PI*(45-22.5)/360)},
+                          {"label":"G#<sub>m</sub>","pcs":[8,11,3],"x":3*Math.cos(2*Math.PI*(45-22.5)/360),"y":3*Math.sin(2*Math.PI*(45-22.5)/360)},
+                          {"label":"G#<sub>M</sub>","pcs":[8,0,3],"x":5*Math.cos(2*Math.PI*(45+22.5)/360),"y":5*Math.sin(2*Math.PI*(45+22.5)/360)},
 
-                          {"label":"f","pcs":[5,8,0],"x":7*Math.cos(2*Math.PI*(90+22.5)/360),"y":7*Math.sin(2*Math.PI*(90+22.5)/360)},
-                          {"label":"F","pcs":[5,9,0],"x":7*Math.cos(2*Math.PI*(135+22.5)/360),"y":7*Math.sin(2*Math.PI*(135+22.5)/360)},
-                          {"label":"C#","pcs":[1,5,8],"x":5*Math.cos(2*Math.PI*(135+22.5)/360),"y":5*Math.sin(2*Math.PI*(135+22.5)/360)},
-                          {"label":"c#","pcs":[1,4,8],"x":3*Math.cos(2*Math.PI*(90+22.5)/360),"y":3*Math.sin(2*Math.PI*(90+22.5)/360)},
-                          {"label":"A","pcs":[9,1,4],"x":3*Math.cos(2*Math.PI*(135+22.5)/360),"y":3*Math.sin(2*Math.PI*(135+22.5)/360)},
-                          {"label":"a","pcs":[9,0,4],"x":5*Math.cos(2*Math.PI*(90+22.5)/360),"y":5*Math.sin(2*Math.PI*(90+22.5)/360)},
+                          {"label":"F<sub>m</sub>","pcs":[5,8,0],"x":7*Math.cos(2*Math.PI*(90+22.5)/360),"y":7*Math.sin(2*Math.PI*(90+22.5)/360)},
+                          {"label":"F<sub>M</sub>","pcs":[5,9,0],"x":7*Math.cos(2*Math.PI*(135+22.5)/360),"y":7*Math.sin(2*Math.PI*(135+22.5)/360)},
+                          {"label":"C#<sub>M</sub>","pcs":[1,5,8],"x":5*Math.cos(2*Math.PI*(135+22.5)/360),"y":5*Math.sin(2*Math.PI*(135+22.5)/360)},
+                          {"label":"C#<sub>m</sub>","pcs":[1,4,8],"x":3*Math.cos(2*Math.PI*(90+22.5)/360),"y":3*Math.sin(2*Math.PI*(90+22.5)/360)},
+                          {"label":"A<sub>M</sub>","pcs":[9,1,4],"x":3*Math.cos(2*Math.PI*(135+22.5)/360),"y":3*Math.sin(2*Math.PI*(135+22.5)/360)},
+                          {"label":"A<sub>m</sub>","pcs":[9,0,4],"x":5*Math.cos(2*Math.PI*(90+22.5)/360),"y":5*Math.sin(2*Math.PI*(90+22.5)/360)},
 
-                          {"label":"Bb","pcs":[10,2,5],"x":7*Math.cos(2*Math.PI*(225+22.5)/360),"y":7*Math.sin(2*Math.PI*(225+22.5)/360)},
-                          {"label":"bb","pcs":[10,1,5],"x":7*Math.cos(2*Math.PI*(180+22.5)/360),"y":7*Math.sin(2*Math.PI*(180+22.5)/360)},
-                          {"label":"d","pcs":[2,5,9],"x":5*Math.cos(2*Math.PI*(180+22.5)/360),"y":5*Math.sin(2*Math.PI*(180+22.5)/360)},
-                          {"label":"D","pcs":[2,6,9],"x":3*Math.cos(2*Math.PI*(225+22.5)/360),"y":3*Math.sin(2*Math.PI*(225+22.5)/360)},
-                          {"label":"f#","pcs":[6,9,1],"x":3*Math.cos(2*Math.PI*(180+22.5)/360),"y":3*Math.sin(2*Math.PI*(180+22.5)/360)},
-                          {"label":"F#","pcs":[6,10,1],"x":5*Math.cos(2*Math.PI*(225+22.5)/360),"y":5*Math.sin(2*Math.PI*(225+22.5)/360)},
+                          {"label":"Bb<sub>M</sub>","pcs":[10,2,5],"x":7*Math.cos(2*Math.PI*(225+22.5)/360),"y":7*Math.sin(2*Math.PI*(225+22.5)/360)},
+                          {"label":"Bb<sub>m</sub>","pcs":[10,1,5],"x":7*Math.cos(2*Math.PI*(180+22.5)/360),"y":7*Math.sin(2*Math.PI*(180+22.5)/360)},
+                          {"label":"D<sub>m</sub>","pcs":[2,5,9],"x":5*Math.cos(2*Math.PI*(180+22.5)/360),"y":5*Math.sin(2*Math.PI*(180+22.5)/360)},
+                          {"label":"D<sub>M</sub>","pcs":[2,6,9],"x":3*Math.cos(2*Math.PI*(225+22.5)/360),"y":3*Math.sin(2*Math.PI*(225+22.5)/360)},
+                          {"label":"F#<sub>m</sub>","pcs":[6,9,1],"x":3*Math.cos(2*Math.PI*(180+22.5)/360),"y":3*Math.sin(2*Math.PI*(180+22.5)/360)},
+                          {"label":"F#<sub>M</sub>","pcs":[6,10,1],"x":5*Math.cos(2*Math.PI*(225+22.5)/360),"y":5*Math.sin(2*Math.PI*(225+22.5)/360)},
 
-                          {"label":"g","pcs":[7,10,2],"x":7*Math.cos(2*Math.PI*(270+22.5)/360),"y":7*Math.sin(2*Math.PI*(270+22.5)/360)},
-                          {"label":"G","pcs":[7,11,2],"x":7*Math.cos(2*Math.PI*(315+22.5)/360),"y":7*Math.sin(2*Math.PI*(315+22.5)/360)},
-                          {"label":"Eb","pcs":[3,7,10],"x":5*Math.cos(2*Math.PI*(315+22.5)/360),"y":5*Math.sin(2*Math.PI*(315+22.5)/360)},
-                          {"label":"eb","pcs":[3,6,10],"x":3*Math.cos(2*Math.PI*(270+22.5)/360),"y":3*Math.sin(2*Math.PI*(270+22.5)/360)},
-                          {"label":"B","pcs":[11,3,6],"x":3*Math.cos(2*Math.PI*(315+22.5)/360),"y":3*Math.sin(2*Math.PI*(315+22.5)/360)},
-                          {"label":"b","pcs":[11,2,6],"x":5*Math.cos(2*Math.PI*(270+22.5)/360),"y":5*Math.sin(2*Math.PI*(270+22.5)/360)},
+                          {"label":"G<sub>m</sub>","pcs":[7,10,2],"x":7*Math.cos(2*Math.PI*(270+22.5)/360),"y":7*Math.sin(2*Math.PI*(270+22.5)/360)},
+                          {"label":"G<sub>M</sub>","pcs":[7,11,2],"x":7*Math.cos(2*Math.PI*(315+22.5)/360),"y":7*Math.sin(2*Math.PI*(315+22.5)/360)},
+                          {"label":"Eb<sub>M</sub>","pcs":[3,7,10],"x":5*Math.cos(2*Math.PI*(315+22.5)/360),"y":5*Math.sin(2*Math.PI*(315+22.5)/360)},
+                          {"label":"Eb<sub>m</sub>","pcs":[3,6,10],"x":3*Math.cos(2*Math.PI*(270+22.5)/360),"y":3*Math.sin(2*Math.PI*(270+22.5)/360)},
+                          {"label":"B<sub>M</sub>","pcs":[11,3,6],"x":3*Math.cos(2*Math.PI*(315+22.5)/360),"y":3*Math.sin(2*Math.PI*(315+22.5)/360)},
+                          {"label":"B<sub>m</sub>","pcs":[11,2,6],"x":5*Math.cos(2*Math.PI*(270+22.5)/360),"y":5*Math.sin(2*Math.PI*(270+22.5)/360)},
                         ];
 
 
-            CHORD_DATA_MmAug = [{"label":"C","pcs":[0,4,7],"x":3,"y":4},
-                          {"label":"c","pcs":[0,3,7],"x":4,"y":3},
-                          {"label":"E","pcs":[4,8,11],"x":1,"y":2},
-                          {"label":"e","pcs":[4,7,11],"x":3,"y":2},
-                          {"label":"g#","pcs":[8,11,3],"x":2,"y":1},
-                          {"label":"G#","pcs":[8,0,3],"x":2,"y":3},
+            CHORD_DATA_MmAug = [{"label":"C<sub>M</sub>","pcs":[0,4,7],"x":3,"y":4},
+                          {"label":"C<sub>m</sub>","pcs":[0,3,7],"x":4,"y":3},
+                          {"label":"E<sub>M</sub>","pcs":[4,8,11],"x":1,"y":2},
+                          {"label":"E<sub>m</sub>","pcs":[4,7,11],"x":3,"y":2},
+                          {"label":"G#<sub>m</sub>","pcs":[8,11,3],"x":2,"y":1},
+                          {"label":"G#<sub>M</sub>","pcs":[8,0,3],"x":2,"y":3},
 
-                          {"label":"f","pcs":[5,8,0],"x":-3,"y":4},
-                          {"label":"F","pcs":[5,9,0],"x":-4,"y":3},
-                          {"label":"C#","pcs":[1,5,8],"x":-3,"y":2},
-                          {"label":"c#","pcs":[1,4,8],"x":-1,"y":2},
-                          {"label":"A","pcs":[9,1,4],"x":-2,"y":1},
-                          {"label":"a","pcs":[9,0,4],"x":-2,"y":3},
+                          {"label":"F<sub>m</sub>","pcs":[5,8,0],"x":-3,"y":4},
+                          {"label":"F<sub>M</sub>","pcs":[5,9,0],"x":-4,"y":3},
+                          {"label":"C#<sub>M</sub>","pcs":[1,5,8],"x":-3,"y":2},
+                          {"label":"C#<sub>m</sub>","pcs":[1,4,8],"x":-1,"y":2},
+                          {"label":"A<sub>M</sub>","pcs":[9,1,4],"x":-2,"y":1},
+                          {"label":"A<sub>m</sub>","pcs":[9,0,4],"x":-2,"y":3},
 
-                          {"label":"Bb","pcs":[10,2,5],"x":-3,"y":-4},
-                          {"label":"bb","pcs":[10,1,5],"x":-4,"y":-3},
-                          {"label":"d","pcs":[2,5,9],"x":-3,"y":-2},
-                          {"label":"D","pcs":[2,6,9],"x":-1,"y":-2},
-                          {"label":"f#","pcs":[6,9,1],"x":-2,"y":-1},
-                          {"label":"F#","pcs":[6,10,1],"x":-2,"y":-3},
+                          {"label":"Bb<sub>M</sub>","pcs":[10,2,5],"x":-3,"y":-4},
+                          {"label":"Bb<sub>m</sub>","pcs":[10,1,5],"x":-4,"y":-3},
+                          {"label":"D<sub>m</sub>","pcs":[2,5,9],"x":-3,"y":-2},
+                          {"label":"D<sub>M</sub>","pcs":[2,6,9],"x":-1,"y":-2},
+                          {"label":"F#<sub>m</sub>","pcs":[6,9,1],"x":-2,"y":-1},
+                          {"label":"F#<sub>M</sub>","pcs":[6,10,1],"x":-2,"y":-3},
 
-                          {"label":"g","pcs":[7,10,2],"x":3,"y":-4},
-                          {"label":"G","pcs":[7,11,2],"x":4,"y":-3},
-                          {"label":"Eb","pcs":[3,7,10],"x":3,"y":-2},
-                          {"label":"eb","pcs":[3,6,10],"x":1,"y":-2},
-                          {"label":"B","pcs":[11,3,6],"x":2,"y":-1},
-                          {"label":"b","pcs":[11,2,6],"x":2,"y":-3},
+                          {"label":"G<sub>m</sub>","pcs":[7,10,2],"x":3,"y":-4},
+                          {"label":"G<sub>M</sub>","pcs":[7,11,2],"x":4,"y":-3},
+                          {"label":"Eb<sub>M</sub>","pcs":[3,7,10],"x":3,"y":-2},
+                          {"label":"Eb<sub>m</sub>","pcs":[3,6,10],"x":1,"y":-2},
+                          {"label":"B<sub>M</sub>","pcs":[11,3,6],"x":2,"y":-1},
+                          {"label":"B<sub>m</sub>","pcs":[11,2,6],"x":2,"y":-3},
 
 
                           {"label":"F+","pcs":[5,9,1],"x":-5,"y":0},
@@ -341,33 +406,33 @@
                           {"label":"Ab+","pcs":[8,0,4],"x":0,"y":5},
                           {"label":"D+","pcs":[2,6,10],"x":0,"y":-5},
                         ];
-          CHORD_DATA_MmAugSus = [{"label":"C","pcs":[0,4,7],"x":3,"y":4},
-                        {"label":"c","pcs":[0,3,7],"x":4,"y":3},
-                        {"label":"E","pcs":[4,8,11],"x":1,"y":2},
-                        {"label":"e","pcs":[4,7,11],"x":3,"y":2},
-                        {"label":"g#","pcs":[8,11,3],"x":2,"y":1},
-                        {"label":"G#","pcs":[8,0,3],"x":2,"y":3},
+          CHORD_DATA_MmAugSus = [{"label":"C<sub>M</sub>","pcs":[0,4,7],"x":3,"y":4},
+                        {"label":"C<sub>m</sub>","pcs":[0,3,7],"x":4,"y":3},
+                        {"label":"E<sub>M</sub>","pcs":[4,8,11],"x":1,"y":2},
+                        {"label":"E<sub>m</sub>","pcs":[4,7,11],"x":3,"y":2},
+                        {"label":"G#<sub>m</sub>","pcs":[8,11,3],"x":2,"y":1},
+                        {"label":"G#<sub>M</sub>","pcs":[8,0,3],"x":2,"y":3},
 
-                        {"label":"f","pcs":[5,8,0],"x":-3,"y":4},
-                        {"label":"F","pcs":[5,9,0],"x":-4,"y":3},
-                        {"label":"C#","pcs":[1,5,8],"x":-3,"y":2},
-                        {"label":"c#","pcs":[1,4,8],"x":-1,"y":2},
-                        {"label":"A","pcs":[9,1,4],"x":-2,"y":1},
-                        {"label":"a","pcs":[9,0,4],"x":-2,"y":3},
+                        {"label":"F<sub>m</sub>","pcs":[5,8,0],"x":-3,"y":4},
+                        {"label":"F<sub>M</sub>","pcs":[5,9,0],"x":-4,"y":3},
+                        {"label":"C#<sub>M</sub>","pcs":[1,5,8],"x":-3,"y":2},
+                        {"label":"C#<sub>m</sub>","pcs":[1,4,8],"x":-1,"y":2},
+                        {"label":"A<sub>M</sub>","pcs":[9,1,4],"x":-2,"y":1},
+                        {"label":"A<sub>m</sub>","pcs":[9,0,4],"x":-2,"y":3},
 
-                        {"label":"Bb","pcs":[10,2,5],"x":-3,"y":-4},
-                        {"label":"bb","pcs":[10,1,5],"x":-4,"y":-3},
-                        {"label":"d","pcs":[2,5,9],"x":-3,"y":-2},
-                        {"label":"D","pcs":[2,6,9],"x":-1,"y":-2},
-                        {"label":"f#","pcs":[6,9,1],"x":-2,"y":-1},
-                        {"label":"F#","pcs":[6,10,1],"x":-2,"y":-3},
+                        {"label":"Bb<sub>M</sub>","pcs":[10,2,5],"x":-3,"y":-4},
+                        {"label":"Bb<sub>m</sub>","pcs":[10,1,5],"x":-4,"y":-3},
+                        {"label":"D<sub>m</sub>","pcs":[2,5,9],"x":-3,"y":-2},
+                        {"label":"D<sub>M</sub>","pcs":[2,6,9],"x":-1,"y":-2},
+                        {"label":"F#<sub>m</sub>","pcs":[6,9,1],"x":-2,"y":-1},
+                        {"label":"F#<sub>M</sub>","pcs":[6,10,1],"x":-2,"y":-3},
 
-                        {"label":"g","pcs":[7,10,2],"x":3,"y":-4},
-                        {"label":"G","pcs":[7,11,2],"x":4,"y":-3},
-                        {"label":"Eb","pcs":[3,7,10],"x":3,"y":-2},
-                        {"label":"eb","pcs":[3,6,10],"x":1,"y":-2},
-                        {"label":"B","pcs":[11,3,6],"x":2,"y":-1},
-                        {"label":"b","pcs":[11,2,6],"x":2,"y":-3},
+                        {"label":"G<sub>m</sub>","pcs":[7,10,2],"x":3,"y":-4},
+                        {"label":"G<sub>M</sub>","pcs":[7,11,2],"x":4,"y":-3},
+                        {"label":"Eb<sub>M</sub>","pcs":[3,7,10],"x":3,"y":-2},
+                        {"label":"Eb<sub>m</sub>","pcs":[3,6,10],"x":1,"y":-2},
+                        {"label":"B<sub>M</sub>","pcs":[11,3,6],"x":2,"y":-1},
+                        {"label":"B<sub>m</sub>","pcs":[11,2,6],"x":2,"y":-3},
 
 
                         {"label":"F+","pcs":[5,9,1],"x":-5,"y":0},
@@ -375,18 +440,18 @@
                         {"label":"Ab+","pcs":[8,0,4],"x":0,"y":5},
                         {"label":"D+","pcs":[2,6,10],"x":0,"y":-5},
 
-                        {"label":"Abs4","pcs":[8,1,3],"x":0,"y":4.1},
-                        {"label":"Es4","pcs":[4,9,11],"x":0,"y":3.2},
-                        {"label":"Cs4","pcs":[0,5,7],"x":0,"y":2.3},
-                        {"label":"Gs4","pcs":[7,0,2],"x":4.1,"y":0},
-                        {"label":"Ebs4","pcs":[3,8,10],"x":3.2,"y":0},
-                        {"label":"Bs4","pcs":[11,4,6],"x":2.3,"y":0},
-                        {"label":"As4","pcs":[9,2,4],"x":-4.1,"y":0},
-                        {"label":"Fs4","pcs":[5,10,0],"x":-3.2,"y":0},
-                        {"label":"C#s4","pcs":[1,6,8],"x":-2.3,"y":0},
-                        {"label":"Ds4","pcs":[2,7,9],"x":0,"y":-4.1},
-                        {"label":"Bbs4","pcs":[10,3,5],"x":0,"y":-3.2},
-                        {"label":"F#s4","pcs":[6,11,1],"x":0,"y":-2.3},
+                        {"label":"Ab<sub>s4</sub>","pcs":[8,1,3],"x":0,"y":4.1},
+                        {"label":"E<sub>s4</sub>","pcs":[4,9,11],"x":0,"y":3.2},
+                        {"label":"C<sub>s4</sub>","pcs":[0,5,7],"x":0,"y":2.3},
+                        {"label":"G<sub>s4</sub>","pcs":[7,0,2],"x":4.1,"y":0},
+                        {"label":"Eb<sub>s4</sub>","pcs":[3,8,10],"x":3.2,"y":0},
+                        {"label":"B<sub>s4</sub>","pcs":[11,4,6],"x":2.3,"y":0},
+                        {"label":"A<sub>s4</sub>","pcs":[9,2,4],"x":-4.1,"y":0},
+                        {"label":"F<sub>s4</sub>","pcs":[5,10,0],"x":-3.2,"y":0},
+                        {"label":"C#<sub>s4</sub>","pcs":[1,6,8],"x":-2.3,"y":0},
+                        {"label":"D<sub>s4</sub>","pcs":[2,7,9],"x":0,"y":-4.1},
+                        {"label":"Bb<sub>s4</sub>","pcs":[10,3,5],"x":0,"y":-3.2},
+                        {"label":"F#<sub>s4</sub>","pcs":[6,11,1],"x":0,"y":-2.3},
 
                       ];
             for (var i=0;i<CHORD_DATA_MmAugSus.length;i++) {
@@ -397,8 +462,9 @@
               CHORD_DATA_MmAug[i].x = CHORD_DATA_MmAug[i].x*1.3;
               CHORD_DATA_MmAug[i].y = CHORD_DATA_MmAug[i].y*1.3;
             }
-            SVG_WIDTH=800;
-            SVG_HEIGHT=800;
+            SVG_WIDTH=750;
+            SVG_HEIGHT=550;
+            SCALE = 34;
 
             d3.select("body")
             .on("keydown", function() {
@@ -407,9 +473,7 @@
                             } })
             .on("keyup",function() {SHIFT_KEY=0;})
 
-            SVG = d3.select("#MAINSVG")
-                    .attr("width", SVG_WIDTH)
-                    .attr("height", SVG_HEIGHT);
+            SVG = d3.select("#MAINSVG");
 
             SVG_lines = SVG.append("g");
             SVG_nodes = SVG.append("g");
@@ -427,19 +491,19 @@
                    .attr("opacity",0.0)
                    .attr("x1",function (d) {
                                 data = find_chord_data(d.pair[0]);
-                                return SVG_WIDTH/2+50*data.x;
+                                return SVG_WIDTH/2+SCALE*data.x;
                               })
                    .attr("y1",function (d) {
                                 data = find_chord_data(d.pair[0]);
-                                return SVG_HEIGHT/2-50*data.y;
+                                return SVG_HEIGHT/2-SCALE*data.y;
                               })
                    .attr("x2",function (d) {
                                 data = find_chord_data(d.pair[1]);
-                                return SVG_WIDTH/2+50*data.x;
+                                return SVG_WIDTH/2+SCALE*data.x;
                               })
                    .attr("y2",function (d) {
                                 data = find_chord_data(d.pair[1]);
-                                return SVG_HEIGHT/2-50*data.y;
+                                return SVG_HEIGHT/2-SCALE*data.y;
                               })
                    .attr("stroke",function(d) {return EDGE_COLORS[d.label];})
                    .attr("stroke-width",2)
@@ -451,19 +515,19 @@
                 data_selection.transition().duration(500)
                    .attr("x1",function (d) {
                                 data = find_chord_data(d.pair[0]);
-                                return SVG_WIDTH/2+50*data.x;
+                                return SVG_WIDTH/2+SCALE*data.x;
                               })
                    .attr("y1",function (d) {
                                 data = find_chord_data(d.pair[0]);
-                                return SVG_HEIGHT/2-50*data.y;
+                                return SVG_HEIGHT/2-SCALE*data.y;
                               })
                    .attr("x2",function (d) {
                                 data = find_chord_data(d.pair[1]);
-                                return SVG_WIDTH/2+50*data.x;
+                                return SVG_WIDTH/2+SCALE*data.x;
                               })
                    .attr("y2",function (d) {
                                 data = find_chord_data(d.pair[1]);
-                                return SVG_HEIGHT/2-50*data.y;
+                                return SVG_HEIGHT/2-SCALE*data.y;
                               });
 
                 data_selection = SVG_nodes.selectAll(".chordNode").data(nodes, function(d) {return d.label;});
@@ -481,29 +545,29 @@
                                     playPCs(d.pcs,0,0);
                                 })
                     .attr("transform",function(d){
-                          var pos_x = SVG_WIDTH/2+50*d.x;
-                          var pos_y = SVG_HEIGHT/2-50*d.y;
+                          var pos_x = SVG_WIDTH/2+SCALE*d.x;
+                          var pos_y = SVG_HEIGHT/2-SCALE*d.y;
                           return "translate("+pos_x.toString()+" "+pos_y.toString()+")"})
                   ;
 
                 gElems.append("circle")
                 .attr("class","chordNodeCircle")
-                   .attr("r",18)
-                   .attr("stroke","lightgray")
+                   .attr("r",16)
+                   .attr("stroke","darkgray")
                    .attr("fill","white")
                    .attr("opacity",1.0);
 
                 gElems.append("text")
                  .attr("class","chordNodeText")
-                 .attr("x",0.0)
-                 .attr("y",7)
-                 .html(function (d) {return d.label});
+                 .attr("x",-1)
+                 .attr("y",3)
+                 .html(function (d) {return d.label.replace("<sub>",'<tspan dy="8" style="font-size:10px;">').replace("</sub>","</tspan>")});
 
                 data_selection.transition()
                               .duration(500)
                               .attr("transform",function(d){
-                                    var pos_x = SVG_WIDTH/2+50*d.x;
-                                    var pos_y = SVG_HEIGHT/2-50*d.y;
+                                    var pos_x = SVG_WIDTH/2+SCALE*d.x;
+                                    var pos_y = SVG_HEIGHT/2-SCALE*d.y;
                                     return "translate("+pos_x.toString()+" "+pos_y.toString()+")"});
             }
 
@@ -528,7 +592,7 @@
              function highlightProgression(x,the_color) {
                 SVG.selectAll(".chordNode")
                    .selectAll("circle")
-                   .attr("stroke","lightgray")
+                   .attr("stroke","darkgray")
                    .attr("fill","white")
                    .attr("opacity",1.0);
                 SVG.selectAll(".chordNode").data(CURR_CHORD_DATA)
